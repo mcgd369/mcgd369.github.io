@@ -24,6 +24,7 @@ export const metadata: Metadata = {
     description: '独家折扣·免费接送·专业推荐，您的品质之选',
     locale: 'zh_CN',
     type: 'website',
+    url: 'https://mcgd369.github.io',
   },
   robots: {
     index: true,

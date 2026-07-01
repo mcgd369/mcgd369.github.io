@@ -29,13 +29,10 @@ export default function HomePage() {
           </div>
           <div className="relative z-10 max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="font-serif text-2xl sm:text-3xl font-bold text-foreground mb-6">
-              {t.brand?.title || '我们不只是订位，我们真心希望你玩得尽兴'}
+              {t.brand.title}
             </h2>
             <p className="text-muted-foreground leading-relaxed text-base sm:text-lg mb-4">
-              {t.brand?.body1 || '从台湾飞澳门时间有限，行程不容浪费。我们希望你带回去的不是「还可以」，而是真正想再回头的那种记忆。'}
-            </p>
-            <p className="text-muted-foreground leading-relaxed text-base sm:text-lg">
-              {t.brand?.body2 || '会做到接送、配对、VIP入场、回程接机这些，是因为我们知道玩家踏进澳门那一刻起，每一个细节都会影响整段旅程。'}
+              {t.brand.description}
             </p>
           </div>
         </section>

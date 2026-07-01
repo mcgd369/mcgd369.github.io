@@ -16,7 +16,15 @@ import Link from 'next/link';
 type TabKey = 'recommended' | 'guide';
 type GuideSubTab = 'flow' | 'vip';
 
-const serviceContent = {
+interface ServiceItem {
+  id: string;
+  icon: string;
+  title: string;
+  desc: string;
+  note?: string;
+}
+
+const serviceContent: Record<string, ServiceItem[]> = {
   zh: [
     {
       id: 'match',

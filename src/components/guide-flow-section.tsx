@@ -11,7 +11,15 @@ import { openContactDialog } from '@/components/contact-dialog';
 import { WatermarkedImage } from '@/components/watermarked-image';
 
 /* ── 玩家流程 ── */
-const serviceContent = {
+interface ServiceItem {
+  id: string;
+  icon: string;
+  title: string;
+  desc: string;
+  note?: string;
+}
+
+const serviceContent: Record<string, ServiceItem[]> = {
   zh: [
     { id: 'match', icon: '💬', title: '帮你配对最适合的会所', desc: '不必在十多间会所里迷路——告诉我们你的飞行时间、预算范围、想体验什幺，由我们替你配对。团队熟悉每一间的特色与当下状况，避免你白跑或选错。' },
     { id: 'pickup', icon: '🚗', title: '澳门任意地点接机', desc: '不管是机场、码头或其他地点，只要在澳门境内，告诉我们具体位置和出发人数，商务车会到指定位置接你。', note: '七人座轻松容纳——同行伙伴享同样礼遇，零额外费用。' },
@@ -137,7 +145,19 @@ const categoryFilters = {
 };
 
 /* ── 智能配对问答 ── */
-const quizSteps = {
+interface QuizOption {
+  label: string;
+  value: string;
+  match?: string;
+}
+
+interface QuizStep {
+  id: string;
+  question: string;
+  options: QuizOption[];
+}
+
+const quizSteps: Record<string, QuizStep[]> = {
   zh: [
     {
       id: 'direction',
@@ -884,9 +904,9 @@ function SmartMatch({ locale }: { locale: string }) {
             {steps[currentStep].options.map((opt) => (
               <button
                 key={opt.value}
-                onClick={() => handleAnswer(steps[currentStep].id, opt.value, 'match' in opt ? (opt as { match?: string }).match : undefined)}
+                onClick={() => handleAnswer(steps[currentStep].id, opt.value, opt.match)}
                 className={`px-4 py-3 sm:py-4 rounded-xl border text-sm sm:text-base font-medium transition-all hover:border-primary/40 hover:bg-primary/5 hover:text-foreground ${
-                  answers[steps[currentStep].id] === (('match' in opt ? (opt as { match?: string }).match : undefined) || opt.value)
+                  answers[steps[currentStep].id] === (opt.match || opt.value)
                     ? 'border-primary bg-primary/10 text-foreground'
                     : 'border-border text-muted-foreground'
                 }`}

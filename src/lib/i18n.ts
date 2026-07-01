@@ -10,8 +10,8 @@ export const dictionaries = {
     hero: {
       title: '澳门高端水疗指南',
       subtitle: '专业甄选 · 品质保证 · 尊享服务',
-      cta: '查看排行榜',
-      secondaryCta: '浏览全部场馆',
+      cta: '澳门桑拿攻略',
+      secondaryCta: '获取联系方式',
     },
     venues: {
       title: '精选场馆',
@@ -312,8 +312,8 @@ export const dictionaries = {
     hero: {
       title: 'Macau Premium Spa Guide',
       subtitle: 'Professional Selection · Quality Assurance · Exclusive Service',
-      cta: 'View Rankings',
-      secondaryCta: 'Browse All Venues',
+      cta: 'Macau Sauna Guide',
+      secondaryCta: 'Get Contact Info',
     },
     venues: {
       title: 'Featured Venues',

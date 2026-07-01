@@ -3,14 +3,10 @@
 import { useI18n } from '@/lib/i18n-context';
 import { Button } from '@/components/ui/button';
 import { openContactDialog } from '@/components/contact-dialog';
+import Link from 'next/link';
 
 export function HeroSection() {
   const { t } = useI18n();
-
-  const scrollToGuide = () => {
-    const el = document.getElementById('guide');
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -36,16 +32,18 @@ export function HeroSection() {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Link href="/guide">
+            <Button
+              size="lg"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base font-semibold rounded-lg"
+            >
+              {t.hero.cta}
+            </Button>
+          </Link>
           <Button
             size="lg"
-            className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base font-semibold rounded-lg"
-            onClick={scrollToGuide}
-          >
-            {t.hero.cta}
-          </Button>
-          <Button
-            size="lg"
-            className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base font-semibold rounded-lg"
+            variant="outline"
+            className="px-8 py-6 text-base font-semibold rounded-lg"
             onClick={() => openContactDialog()}
           >
             {t.hero.secondaryCta}

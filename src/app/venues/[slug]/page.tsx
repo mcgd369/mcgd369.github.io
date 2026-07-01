@@ -10,10 +10,11 @@ export async function generateStaticParams() {
 }
 
 // 服务器端组件包装器
-export default function VenueDetailPage({
+export default async function VenueDetailPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  return <VenueDetailClient slug={params.slug} />;
+  const { slug } = await params;
+  return <VenueDetailClient slug={slug} />;
 }

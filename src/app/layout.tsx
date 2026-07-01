@@ -3,6 +3,7 @@ import './globals.css';
 import { ClientProviders } from '@/components/client-providers';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://mcgd369.github.io'),
   title: {
     default: '澳门指导 | 澳门水疗场馆专业推荐',
     template: '%s | 澳门指导',
@@ -36,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh">
+    <html lang="zh" suppressHydrationWarning>
       <body className={`antialiased`}>
         <ClientProviders>
           {children}

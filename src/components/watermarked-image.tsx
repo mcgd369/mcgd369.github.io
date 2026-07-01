@@ -7,7 +7,6 @@ interface WatermarkedImageProps {
   alt: string;
   className?: string;
   loading?: 'lazy' | 'eager' | undefined;
-  fetchPriority?: 'high' | 'low' | 'auto' | undefined;
   style?: React.CSSProperties;
 }
 
@@ -16,7 +15,6 @@ export function WatermarkedImage({
   alt,
   className = '',
   loading,
-  fetchPriority,
   style,
 }: WatermarkedImageProps) {
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
@@ -25,13 +23,13 @@ export function WatermarkedImage({
 
   return (
     <div className={`relative overflow-hidden ${className}`} style={style} onContextMenu={handleContextMenu}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src}
         alt={alt}
         className="w-full h-full object-cover pointer-events-none"
         draggable={false}
         loading={loading}
-        fetchPriority={fetchPriority}
       />
       {/* Center watermark */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">

@@ -524,7 +524,7 @@ export default function VenueDetailClient({ slug }: { slug: string }) {
                       </div>
                       <div className="text-right">
                         <span className="font-bold text-primary text-lg">
-                          {plan.price}
+                          {typeof plan.price === 'number' ? plan.price.toLocaleString() : plan.price}
                         </span>
                         <span className="text-muted-foreground text-sm ml-1">
                           {venue.currency}

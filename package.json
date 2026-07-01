@@ -1,0 +1,14 @@
+{
+  "name": "macau-food-guide",
+  "version": "1.0.0",
+  "description": "澳门美食指南 - 探索澳门的美味佳肴",
+  "type": "module",
+  "scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "devDependencies": {
+    "vitepress": "^1.3.0"
+  }
+}

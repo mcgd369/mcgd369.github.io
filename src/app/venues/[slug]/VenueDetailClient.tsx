@@ -119,6 +119,7 @@ function SectionHeading({
 export default function VenueDetailClient({ slug }: { slug: string }) {
   const router = useRouter();
   const { locale } = useI18n();
+  const [from, setFrom] = useState<string | null>(null);
 
   const venue = getVenueBySlug(slug);
   const allVenues = getAllVenues();
@@ -126,6 +127,14 @@ export default function VenueDetailClient({ slug }: { slug: string }) {
   const [galleryExpanded, setGalleryExpanded] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const galleryPreviewCount = 2;
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const fromParam = params.get('from');
+    if (fromParam) {
+      setFrom(fromParam);
+    }
+  }, []);
 
   const handleCopy = useCallback(async (id: string) => {
     try {
@@ -302,8 +311,9 @@ export default function VenueDetailClient({ slug }: { slug: string }) {
           variant="ghost"
           size="sm"
           onClick={() => {
-            // 优先返回上一页（保持原页面滚动位置）
-            if (typeof window !== 'undefined' && window.history.length > 1) {
+            if (from === 'home') {
+              router.push('/');
+            } else if (typeof window !== 'undefined' && window.history.length > 1) {
               router.back();
             } else {
               router.push('/venues');

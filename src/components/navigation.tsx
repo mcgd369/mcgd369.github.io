@@ -45,7 +45,7 @@ export function Navigation() {
               {t.nav.guide}
             </Link>
             <Link
-              href="/venues"
+              href="/#guide"
               className="text-muted-foreground hover:text-foreground transition-colors text-sm"
             >
               {t.nav.venues}
@@ -103,7 +103,7 @@ export function Navigation() {
                 {t.nav.guide}
               </Link>
               <Link
-                href="/venues"
+                href="/#guide"
                 className="text-muted-foreground hover:text-foreground transition-colors py-2"
                 onClick={() => setIsOpen(false)}
               >

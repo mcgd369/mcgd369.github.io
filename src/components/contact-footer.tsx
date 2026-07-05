@@ -48,7 +48,7 @@ export function ContactFooter() {
               <Link href="/guide" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
                 {t.nav.guide}
               </Link>
-              <Link href="/venues" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+              <Link href="/#guide" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
                 {t.nav.venues}
               </Link>
             </div>

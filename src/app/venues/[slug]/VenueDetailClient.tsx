@@ -119,7 +119,7 @@ function SectionHeading({
 export default function VenueDetailClient({ slug }: { slug: string }) {
   const router = useRouter();
   const { locale } = useI18n();
-  const [backTo, setBackTo] = useState<string>('venues');
+  const [backTo, setBackTo] = useState<string>('guide');
 
   const venue = getVenueBySlug(slug);
   const allVenues = getAllVenues();
@@ -170,9 +170,9 @@ export default function VenueDetailClient({ slug }: { slug: string }) {
                 ? 'The venue you are looking for does not exist.'
                 : '您查找的场馆不存在。'}
             </p>
-            <Link href="/venues">
+            <Link href="/#guide">
               <Button variant="outline">
-                {locale === 'en' ? 'Back to List' : '返回列表'}
+                {locale === 'en' ? 'Back to Home' : '返回首页'}
               </Button>
             </Link>
           </div>
@@ -311,19 +311,15 @@ export default function VenueDetailClient({ slug }: { slug: string }) {
           variant="ghost"
           size="sm"
           onClick={() => {
-            if (backTo === 'guide') {
-              router.push('/');
-              setTimeout(() => {
-                const el = document.getElementById('guide');
-                if (el) {
-                  const offset = 80;
-                  const y = el.getBoundingClientRect().top + window.scrollY - offset;
-                  window.scrollTo({ top: y, behavior: 'smooth' });
-                }
-              }, 300);
-            } else {
-              router.push('/venues');
-            }
+            router.push('/');
+            setTimeout(() => {
+              const el = document.getElementById('guide');
+              if (el) {
+                const offset = 80;
+                const y = el.getBoundingClientRect().top + window.scrollY - offset;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+              }
+            }, 300);
           }}
           className="bg-black/40 backdrop-blur-sm text-white hover:bg-black/60 hover:text-white shadow-lg"
         >

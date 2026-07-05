@@ -10,7 +10,6 @@ import { MapPin } from 'lucide-react';
 
 interface VenueCardProps {
   venue: Venue;
-  backTo?: string;
 }
 
 const tagVariantMap: Record<string, 'default' | 'secondary' | 'destructive' | 'outline'> = {
@@ -29,14 +28,8 @@ const tagLabels: Record<string, Record<string, string>> = {
   KTV: { zh: 'KTV', 'zh-TW': 'KTV', en: 'KTV' },
 };
 
-export function VenueCard({ venue, backTo }: VenueCardProps) {
+export function VenueCard({ venue }: VenueCardProps) {
   const { t, locale } = useI18n();
-
-  const handleClick = () => {
-    if (typeof window !== 'undefined' && backTo) {
-      sessionStorage.setItem('venueBackTo', backTo);
-    }
-  };
 
   const name = locale === 'en' ? venue.nameEn : venue.name;
   const tagline = locale === 'en' ? venue.taglineEn : venue.tagline;
@@ -106,7 +99,7 @@ export function VenueCard({ venue, backTo }: VenueCardProps) {
           className="w-full bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-all text-sm"
           variant="ghost"
         >
-          <Link href={`/venues/${venue.slug}`} onClick={handleClick}>
+          <Link href={`/venues/${venue.slug}`}>
             {locale === 'en' ? 'View Details' : '查看详情'}
           </Link>
         </Button>

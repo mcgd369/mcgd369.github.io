@@ -479,8 +479,14 @@ function VenueRow({ venue, locale }: { venue: Venue; locale: string }) {
   const badge = venue.coverBadgeEn && locale === 'en' ? venue.coverBadgeEn : venue.coverBadge;
   const desc = locale === 'en' ? venue.longDescriptionEn : venue.longDescription;
 
+  const handleClick = () => {
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('venueBackTo', '/');
+    }
+  };
+
   return (
-    <Link href={`/venues/${venue.slug}?from=home`} className="group block">
+    <Link href={`/venues/${venue.slug}`} className="group block" onClick={handleClick}>
       <div className={`rounded-xl bg-background border border-border hover:border-primary/30 hover:shadow-lg transition-all overflow-hidden ${venue.suspended ? 'opacity-70' : ''}`}>
         {/* Cover image */}
         <div className="relative aspect-[16/7] sm:aspect-[16/6] overflow-hidden bg-muted">

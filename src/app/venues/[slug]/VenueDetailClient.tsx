@@ -119,7 +119,7 @@ function SectionHeading({
 export default function VenueDetailClient({ slug }: { slug: string }) {
   const router = useRouter();
   const { locale } = useI18n();
-  const [from, setFrom] = useState<string | null>(null);
+  const [backTo, setBackTo] = useState<string>('/venues');
 
   const venue = getVenueBySlug(slug);
   const allVenues = getAllVenues();
@@ -129,10 +129,9 @@ export default function VenueDetailClient({ slug }: { slug: string }) {
   const galleryPreviewCount = 2;
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const fromParam = params.get('from');
-    if (fromParam) {
-      setFrom(fromParam);
+    const saved = sessionStorage.getItem('venueBackTo');
+    if (saved) {
+      setBackTo(saved);
     }
   }, []);
 
@@ -311,13 +310,8 @@ export default function VenueDetailClient({ slug }: { slug: string }) {
           variant="ghost"
           size="sm"
           onClick={() => {
-            if (from === 'home') {
-              router.push('/');
-            } else if (typeof window !== 'undefined' && window.history.length > 1) {
-              router.back();
-            } else {
-              router.push('/venues');
-            }
+            sessionStorage.removeItem('venueBackTo');
+            router.push(backTo);
           }}
           className="bg-black/40 backdrop-blur-sm text-white hover:bg-black/60 hover:text-white shadow-lg"
         >

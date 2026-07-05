@@ -26,7 +26,7 @@ export default function VenuesPage() {
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             {venues.map((venue) => (
-              <VenueCard key={venue.slug} venue={venue} />
+              <VenueCard key={venue.slug} venue={venue} backTo="/venues" />
             ))}
           </div>
         </div>

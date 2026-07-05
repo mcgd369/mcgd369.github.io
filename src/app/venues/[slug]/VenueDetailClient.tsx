@@ -311,7 +311,11 @@ export default function VenueDetailClient({ slug }: { slug: string }) {
           size="sm"
           onClick={() => {
             sessionStorage.removeItem('venueBackTo');
-            router.push(backTo);
+            if (backTo === '/') {
+              window.location.href = '/';
+            } else {
+              router.push(backTo);
+            }
           }}
           className="bg-black/40 backdrop-blur-sm text-white hover:bg-black/60 hover:text-white shadow-lg"
         >

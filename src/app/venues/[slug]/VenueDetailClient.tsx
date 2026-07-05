@@ -311,8 +311,17 @@ export default function VenueDetailClient({ slug }: { slug: string }) {
           size="sm"
           onClick={() => {
             sessionStorage.removeItem('venueBackTo');
-            if (backTo === '/') {
-              window.location.href = '/';
+            if (backTo.includes('#')) {
+              const [path, hash] = backTo.split('#');
+              router.push(path);
+              setTimeout(() => {
+                const el = document.getElementById(hash);
+                if (el) {
+                  const offset = 80;
+                  const y = el.getBoundingClientRect().top + window.scrollY - offset;
+                  window.scrollTo({ top: y, behavior: 'smooth' });
+                }
+              }, 300);
             } else {
               router.push(backTo);
             }

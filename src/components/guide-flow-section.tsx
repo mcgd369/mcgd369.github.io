@@ -481,7 +481,7 @@ function VenueRow({ venue, locale }: { venue: Venue; locale: string }) {
 
   const handleClick = () => {
     if (typeof window !== 'undefined') {
-      sessionStorage.setItem('venueBackTo', '/');
+      sessionStorage.setItem('venueBackTo', '/#guide');
     }
   };
 

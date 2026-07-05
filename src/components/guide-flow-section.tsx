@@ -659,22 +659,38 @@ function FeeCalculator({ venues, locale }: { venues: Venue[]; locale: string }) 
   const [selectedVenue, setSelectedVenue] = useState<string>('');
   const [inputPrice, setInputPrice] = useState<string>('');
   const [discountType, setDiscountType] = useState<'direct' | 'cashback'>('direct');
-  const [paymentMethod, setPaymentMethod] = useState<'cash' | 'card' | 'alipay' | 'wechat'>('cash');
+  const [discountAmount, setDiscountAmount] = useState<string>('');
+  const [paymentMethod, setPaymentMethod] = useState<string>('mop');
   const [showResult, setShowResult] = useState(false);
 
   const venue = venues.find(v => v.slug === selectedVenue);
-  const taxRate = 0.10; // 10% service fee
-  const discount = 100; // MOP discount
 
-  // 汇率和手续费配置
-  const paymentConfig = {
-    cash: { rate: 0.89, fee: 0, label: { zh: '现金（葡币）', 'zh-TW': '现金（葡币）', en: 'Cash (MOP)' } },
-    card: { rate: 0.91, fee: 0.015, label: { zh: '刷卡', 'zh-TW': '刷卡', en: 'Card' } },
-    alipay: { rate: 0.90, fee: 0, label: { zh: '支付宝', 'zh-TW': '支付寶', en: 'Alipay' } },
-    wechat: { rate: 0.90, fee: 0, label: { zh: '微信支付', 'zh-TW': '微信支付', en: 'WeChat Pay' } },
+  const venueTaxRates: Record<string, number> = {
+    'shangpin': 0.10,
+    'manhao': 0.10,
+    'jiuhao': 0.10,
+    'juheng': 0.10,
+    'jipin': 0.10,
+    'huangbao': 0.05,
+    'zungui': 0.00,
+    'kaixuan': 0.10,
+    'jinhui': 0.15,
+    'haomen': 0.00,
+    'yihao': 0.10,
+    'dihu': 0.10,
   };
 
-  // 优惠形式配置
+  const taxRate = venue ? (venueTaxRates[venue.slug] || 0.10) : 0.10;
+
+  const paymentConfig: Record<string, { rate: number; label: Record<string, string> }> = {
+    mop: { rate: 0.839, label: { zh: '葡币', 'zh-TW': '葡幣', en: 'MOP' } },
+    hkd: { rate: 0.864, label: { zh: '港币', 'zh-TW': '港幣', en: 'HKD' } },
+    cny: { rate: 1, label: { zh: '人民币', 'zh-TW': '人民幣', en: 'CNY' } },
+    card: { rate: 0.839, label: { zh: '刷卡', 'zh-TW': '刷卡', en: 'Card' } },
+    wechat: { rate: 1, label: { zh: '微信', 'zh-TW': '微信', en: 'WeChat' } },
+    alipay: { rate: 1, label: { zh: '支付宝', 'zh-TW': '支付寶', en: 'Alipay' } },
+  };
+
   const discountOptions = {
     direct: { label: { zh: '账面直减', 'zh-TW': '帳面直減', en: 'Direct Discount' } },
     cashback: { label: { zh: '次日返现', 'zh-TW': '次日返現', en: 'Next-Day Cashback' } },
@@ -682,26 +698,25 @@ function FeeCalculator({ venues, locale }: { venues: Venue[]; locale: string }) 
 
   function computeResult() {
     const price = parseFloat(inputPrice);
+    const discount = parseFloat(discountAmount) || 0;
     if (!price || price <= 0) return null;
 
     const config = paymentConfig[paymentMethod];
+    
     let afterDiscount: number;
     let cashback = 0;
 
     if (discountType === 'direct') {
-      // 账面直减：直接从价格中扣除
-      afterDiscount = price - discount;
+      afterDiscount = Math.max(0, price - discount);
     } else {
-      // 次日返现：不扣减，但记录返现金额
       afterDiscount = price;
       cashback = discount;
     }
 
     const afterTax = afterDiscount * (1 + taxRate);
-    const withFee = afterTax * (1 + config.fee);
-    const finalCny = withFee * config.rate;
+    const finalCny = afterTax * config.rate;
 
-    return { price, afterDiscount, afterTax, withFee, finalCny, cashback };
+    return { price, discount, afterDiscount, afterTax, finalCny, cashback };
   }
 
   const calcResult = computeResult();
@@ -714,13 +729,13 @@ function FeeCalculator({ venues, locale }: { venues: Venue[]; locale: string }) 
     setSelectedVenue('');
     setInputPrice('');
     setDiscountType('direct');
-    setPaymentMethod('cash');
+    setDiscountAmount('');
+    setPaymentMethod('mop');
     setShowResult(false);
   };
 
   return (
     <div className="space-y-6">
-      {/* Step 1: Choose venue */}
       <div>
         <label className="text-sm font-semibold text-foreground mb-2 block">
           {locale === 'en' ? '1. Choose Venue' : locale === 'zh-TW' ? '1. 选择场馆' : '1. 选择场馆'}
@@ -740,9 +755,13 @@ function FeeCalculator({ venues, locale }: { venues: Venue[]; locale: string }) 
             </button>
           ))}
         </div>
+        {venue && (
+          <p className="text-xs text-muted-foreground mt-2">
+            {locale === 'en' ? 'Venue tax rate' : '门店税率'}: {(taxRate * 100).toFixed(0)}%
+          </p>
+        )}
       </div>
 
-      {/* Step 2: Enter price */}
       <div>
         <label className="text-sm font-semibold text-foreground mb-2 block">
           {locale === 'en' ? '2. Menu Price (MOP)' : locale === 'zh-TW' ? '2. 价格表价格（葡币）' : '2. 价格表价格（葡币）'}
@@ -756,7 +775,6 @@ function FeeCalculator({ venues, locale }: { venues: Venue[]; locale: string }) 
         />
       </div>
 
-      {/* Step 3: Discount type */}
       <div>
         <label className="text-sm font-semibold text-foreground mb-2 block">
           {locale === 'en' ? '3. Discount Type' : locale === 'zh-TW' ? '3. 优惠形式' : '3. 优惠形式'}
@@ -776,24 +794,31 @@ function FeeCalculator({ venues, locale }: { venues: Venue[]; locale: string }) 
             </button>
           ))}
         </div>
-        <p className="text-xs text-muted-foreground mt-2">
-          {discountType === 'direct'
-            ? (locale === 'en' ? 'Discount applied directly to your bill' : locale === 'zh-TW' ? '折扣直接从账单中扣除' : '折扣直接从账单中扣除')
-            : (locale === 'en' ? 'Discount returned as cashback the next day' : locale === 'zh-TW' ? '折扣将在次日以现金返还' : '折扣将在次日以现金返还')}
-        </p>
       </div>
 
-      {/* Step 4: Payment method */}
       <div>
         <label className="text-sm font-semibold text-foreground mb-2 block">
-          {locale === 'en' ? '4. Payment Method' : locale === 'zh-TW' ? '4. 付款方式' : '4. 付款方式'}
+          {locale === 'en' ? '4. Discount Amount (MOP)' : locale === 'zh-TW' ? '4. 优惠金额（葡币）' : '4. 优惠金额（葡币）'}
         </label>
-        <div className="grid grid-cols-2 gap-2">
+        <input
+          type="number"
+          value={discountAmount}
+          onChange={(e) => { setDiscountAmount(e.target.value); setShowResult(false); }}
+          placeholder={locale === 'en' ? 'Enter discount amount' : locale === 'zh-TW' ? '输入优惠金额' : '输入优惠金额'}
+          className="w-full border border-border rounded-lg px-4 py-3 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors"
+        />
+      </div>
+
+      <div>
+        <label className="text-sm font-semibold text-foreground mb-2 block">
+          {locale === 'en' ? '5. Payment Method' : locale === 'zh-TW' ? '5. 付款方式' : '5. 付款方式'}
+        </label>
+        <div className="grid grid-cols-3 gap-2">
           {Object.entries(paymentConfig).map(([key, config]) => (
             <button
               key={key}
-              onClick={() => { setPaymentMethod(key as 'cash' | 'card' | 'alipay' | 'wechat'); setShowResult(false); }}
-              className={`border rounded-lg px-4 py-3 text-sm transition-all ${
+              onClick={() => { setPaymentMethod(key); setShowResult(false); }}
+              className={`border rounded-lg px-3 py-3 text-xs sm:text-sm transition-all ${
                 paymentMethod === key
                   ? 'border-primary bg-primary/10 text-primary font-semibold'
                   : 'border-border hover:border-primary/50 text-muted-foreground'
@@ -803,14 +828,8 @@ function FeeCalculator({ venues, locale }: { venues: Venue[]; locale: string }) 
             </button>
           ))}
         </div>
-        {paymentMethod === 'card' && (
-          <p className="text-xs text-muted-foreground mt-2">
-            {locale === 'en' ? '1.5% card processing fee applies' : locale === 'zh-TW' ? '刷卡需支付 1.5% 手续费' : '刷卡需支付 1.5% 手续费'}
-          </p>
-        )}
       </div>
 
-      {/* Calculate button */}
       <div className="flex gap-3">
         <Button
           onClick={handleCalculate}
@@ -825,7 +844,6 @@ function FeeCalculator({ venues, locale }: { venues: Venue[]; locale: string }) 
         </Button>
       </div>
 
-      {/* Result */}
       {showResult && calcResult && (
         <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 space-y-4">
           <div className="space-y-2 text-sm">
@@ -833,36 +851,28 @@ function FeeCalculator({ venues, locale }: { venues: Venue[]; locale: string }) 
               <span className="text-muted-foreground">{locale === 'en' ? 'Menu price' : '价格表价格'}</span>
               <span>{calcResult.price.toLocaleString()} MOP</span>
             </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">{locale === 'en' ? 'Venue tax rate' : '门店税率'}</span>
+              <span>+{(taxRate * 100).toFixed(0)}%</span>
+            </div>
             <div className="flex justify-between text-primary">
-              <span>{locale === 'en' ? 'Discount' : '折扣优惠'}</span>
-              <span>{discountType === 'direct' ? `-${discount}` : '+0'} MOP</span>
-            </div>
-            {discountType === 'cashback' && (
-              <div className="flex justify-between text-orange-600">
-                <span>{locale === 'en' ? 'Next-day cashback' : '次日返现'}</span>
-                <span>+{calcResult.cashback} MOP</span>
-              </div>
-            )}
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">{locale === 'en' ? 'After discount' : '折扣后'}</span>
-              <span>{calcResult.afterDiscount.toLocaleString()} MOP</span>
+              <span>{locale === 'en' ? `${discountType === 'direct' ? 'Direct discount' : 'Cashback amount'}` : discountType === 'direct' ? '账面直减' : '返现金额'}</span>
+              <span>{discountType === 'direct' ? `-${calcResult.discount}` : `+${calcResult.cashback}`} MOP</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">{locale === 'en' ? 'Service fee (10%)' : '服务费(10%)'}</span>
-              <span>{calcResult.afterTax.toLocaleString()} MOP</span>
+              <span className="text-muted-foreground">{locale === 'en' ? 'Payment rate' : '付款汇率'}</span>
+              <span>{paymentConfig[paymentMethod].rate}</span>
             </div>
-            {paymentMethod === 'card' && (
+            <div className="border-t border-border pt-2 mt-2">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">{locale === 'en' ? 'Card fee (1.5%)' : '刷卡手续费(1.5%)'}</span>
-                <span>{calcResult.withFee.toLocaleString()} MOP</span>
+                <span className="font-semibold text-foreground">{locale === 'en' ? 'Venue payment amount' : '门店付款金额'}</span>
+                <span className="font-semibold">{calcResult.afterTax.toLocaleString()} MOP</span>
               </div>
-            )}
-          </div>
-          <div className="bg-primary/10 rounded-lg p-4 text-center">
-            <p className="text-xs text-muted-foreground mb-1">{locale === 'en' ? 'Final payment (CNY)' : '最终付款(人民币)'}</p>
-            <p className="text-3xl font-bold text-primary">
-              ¥ {Math.round(calcResult.finalCny).toLocaleString()}
-            </p>
+              <div className="flex justify-between pt-2">
+                <span className="font-semibold text-foreground">{locale === 'en' ? 'Actual payment (CNY)' : '实付金额（人民币）'}</span>
+                <span className="font-bold text-primary text-xl">¥ {Math.round(calcResult.finalCny).toLocaleString()}</span>
+              </div>
+            </div>
           </div>
         </div>
       )}

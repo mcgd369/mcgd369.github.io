@@ -301,7 +301,14 @@ export default function VenueDetailClient({ slug }: { slug: string }) {
         <Button
           variant="ghost"
           size="sm"
-          onClick={() => router.push('/venues')}
+          onClick={() => {
+            // 优先返回上一页（保持原页面滚动位置）
+            if (typeof window !== 'undefined' && window.history.length > 1) {
+              router.back();
+            } else {
+              router.push('/venues');
+            }
+          }}
           className="bg-black/40 backdrop-blur-sm text-white hover:bg-black/60 hover:text-white shadow-lg"
         >
           <ArrowLeft className="h-4 w-4 mr-1" />

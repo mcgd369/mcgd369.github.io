@@ -9,8 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Navigation } from '@/components/navigation';
 import { ContactFooter } from '@/components/contact-footer';
 import { MobileContactBar } from '@/components/mobile-contact-bar';
-import { VenueCard } from '@/components/venue-card';
-import { getVenueBySlug, getAllVenues } from '@/lib/cms';
+import { getVenueBySlug } from '@/lib/cms';
 import { useI18n } from '@/lib/i18n-context';
 import { WatermarkedImage } from '@/components/watermarked-image';
 import {
@@ -122,7 +121,6 @@ export default function VenueDetailClient({ slug }: { slug: string }) {
   const [backTo, setBackTo] = useState<string>('guide');
 
   const venue = getVenueBySlug(slug);
-  const allVenues = getAllVenues();
 
   const [galleryExpanded, setGalleryExpanded] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -150,11 +148,6 @@ export default function VenueDetailClient({ slug }: { slug: string }) {
     setCopiedId(id);
     setTimeout(() => setCopiedId(null), 2000);
   }, []);
-
-  // 获取相似场馆推荐（排除当前场馆，最多显示3个）
-  const similarVenues = allVenues
-    .filter(v => v.slug !== slug && !v.suspended)
-    .slice(0, 3);
 
   if (!venue) {
     return (
@@ -670,21 +663,6 @@ export default function VenueDetailClient({ slug }: { slug: string }) {
                     )}
                   </button>
                 )}
-              </section>
-            )}
-
-            {/* 10. 相似推荐 */}
-            {similarVenues.length > 0 && (
-              <section>
-                <SectionHeading
-                  icon={<Users className="h-4 w-4 text-primary" />}
-                  title={txt.similar}
-                />
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {similarVenues.map((v) => (
-                    <VenueCard key={v.slug} venue={v} />
-                  ))}
-                </div>
               </section>
             )}
           </div>

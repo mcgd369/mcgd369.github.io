@@ -119,7 +119,7 @@ function SectionHeading({
 export default function VenueDetailClient({ slug }: { slug: string }) {
   const router = useRouter();
   const { locale } = useI18n();
-  const [backTo, setBackTo] = useState<string>('/venues');
+  const [backTo, setBackTo] = useState<string>('venues');
 
   const venue = getVenueBySlug(slug);
   const allVenues = getAllVenues();
@@ -129,9 +129,10 @@ export default function VenueDetailClient({ slug }: { slug: string }) {
   const galleryPreviewCount = 2;
 
   useEffect(() => {
-    const saved = sessionStorage.getItem('venueBackTo');
-    if (saved) {
-      setBackTo(saved);
+    const params = new URLSearchParams(window.location.search);
+    const backToParam = params.get('backTo');
+    if (backToParam) {
+      setBackTo(backToParam);
     }
   }, []);
 
@@ -310,12 +311,10 @@ export default function VenueDetailClient({ slug }: { slug: string }) {
           variant="ghost"
           size="sm"
           onClick={() => {
-            sessionStorage.removeItem('venueBackTo');
-            if (backTo.includes('#')) {
-              const [path, hash] = backTo.split('#');
-              router.push(path);
+            if (backTo === 'guide') {
+              router.push('/');
               setTimeout(() => {
-                const el = document.getElementById(hash);
+                const el = document.getElementById('guide');
                 if (el) {
                   const offset = 80;
                   const y = el.getBoundingClientRect().top + window.scrollY - offset;
@@ -323,7 +322,7 @@ export default function VenueDetailClient({ slug }: { slug: string }) {
                 }
               }, 300);
             } else {
-              router.push(backTo);
+              router.push('/venues');
             }
           }}
           className="bg-black/40 backdrop-blur-sm text-white hover:bg-black/60 hover:text-white shadow-lg"

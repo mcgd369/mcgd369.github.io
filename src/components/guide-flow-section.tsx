@@ -666,18 +666,18 @@ function FeeCalculator({ venues, locale }: { venues: Venue[]; locale: string }) 
   const venue = venues.find(v => v.slug === selectedVenue);
 
   const venueTaxRates: Record<string, number> = {
-    'shangpin': 0.10,
-    'manhao': 0.10,
-    'jiuhao': 0.10,
-    'juheng': 0.10,
-    'jipin': 0.10,
-    'huangbao': 0.05,
-    'zungui': 0.00,
-    'kaixuan': 0.10,
-    'jinhui': 0.15,
-    'haomen': 0.00,
-    'yihao': 0.10,
-    'dihu': 0.10,
+    'shangpin-spa': 0.10,
+    'manhao-spa': 0.10,
+    'jiuhao-spa': 0.10,
+    'juheng-sauna': 0.10,
+    'supreme-sauna': 0.10,
+    'golden-fortress-spa': 0.05,
+    'noble-spa': 0.00,
+    'victoria-sauna': 0.10,
+    'elite-sauna': 0.15,
+    'mansion-sauna': 0.00,
+    'number-one-sauna': 0.10,
+    'imperial-spa': 0.10,
   };
 
   const taxRate = venue ? (venueTaxRates[venue.slug] || 0.10) : 0.10;
@@ -714,9 +714,9 @@ function FeeCalculator({ venues, locale }: { venues: Venue[]; locale: string }) 
     }
 
     const afterTax = afterDiscount * (1 + taxRate);
-    const finalCny = afterTax * config.rate;
+    const finalCny = afterTax * config.rate - cashback;
 
-    return { price, discount, afterDiscount, afterTax, finalCny, cashback };
+    return { price, discount, afterDiscount, afterTax, finalCny: Math.max(0, finalCny), cashback };
   }
 
   const calcResult = computeResult();
@@ -777,9 +777,9 @@ function FeeCalculator({ venues, locale }: { venues: Venue[]; locale: string }) 
 
       <div>
         <label className="text-sm font-semibold text-foreground mb-2 block">
-          {locale === 'en' ? '3. Discount Type' : locale === 'zh-TW' ? '3. 优惠形式' : '3. 优惠形式'}
+          {locale === 'en' ? '3. Discount' : locale === 'zh-TW' ? '3. 优惠' : '3. 优惠'}
         </label>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 gap-2 mb-3">
           {Object.entries(discountOptions).map(([key, opt]) => (
             <button
               key={key}
@@ -794,24 +794,18 @@ function FeeCalculator({ venues, locale }: { venues: Venue[]; locale: string }) 
             </button>
           ))}
         </div>
-      </div>
-
-      <div>
-        <label className="text-sm font-semibold text-foreground mb-2 block">
-          {locale === 'en' ? '4. Discount Amount (MOP)' : locale === 'zh-TW' ? '4. 优惠金额（葡币）' : '4. 优惠金额（葡币）'}
-        </label>
         <input
           type="number"
           value={discountAmount}
           onChange={(e) => { setDiscountAmount(e.target.value); setShowResult(false); }}
-          placeholder={locale === 'en' ? 'Enter discount amount' : locale === 'zh-TW' ? '输入优惠金额' : '输入优惠金额'}
+          placeholder={locale === 'en' ? discountType === 'direct' ? 'Enter discount amount (MOP)' : 'Enter cashback amount (CNY)' : locale === 'zh-TW' ? discountType === 'direct' ? '输入优惠金额（葡币）' : '输入返现金额（人民币）' : discountType === 'direct' ? '输入优惠金额（葡币）' : '输入返现金额（人民币）'}
           className="w-full border border-border rounded-lg px-4 py-3 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors"
         />
       </div>
 
       <div>
         <label className="text-sm font-semibold text-foreground mb-2 block">
-          {locale === 'en' ? '5. Payment Method' : locale === 'zh-TW' ? '5. 付款方式' : '5. 付款方式'}
+          {locale === 'en' ? '4. Payment Method' : locale === 'zh-TW' ? '4. 付款方式' : '4. 付款方式'}
         </label>
         <div className="grid grid-cols-3 gap-2">
           {Object.entries(paymentConfig).map(([key, config]) => (
@@ -851,13 +845,9 @@ function FeeCalculator({ venues, locale }: { venues: Venue[]; locale: string }) 
               <span className="text-muted-foreground">{locale === 'en' ? 'Menu price' : '价格表价格'}</span>
               <span>{calcResult.price.toLocaleString()} MOP</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">{locale === 'en' ? 'Venue tax rate' : '门店税率'}</span>
-              <span>+{(taxRate * 100).toFixed(0)}%</span>
-            </div>
             <div className="flex justify-between text-primary">
               <span>{locale === 'en' ? `${discountType === 'direct' ? 'Direct discount' : 'Cashback amount'}` : discountType === 'direct' ? '账面直减' : '返现金额'}</span>
-              <span>{discountType === 'direct' ? `-${calcResult.discount}` : `+${calcResult.cashback}`} MOP</span>
+              <span>{discountType === 'direct' ? `-${calcResult.discount} MOP` : `¥ ${calcResult.cashback}`}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">{locale === 'en' ? 'Payment rate' : '付款汇率'}</span>
@@ -865,11 +855,11 @@ function FeeCalculator({ venues, locale }: { venues: Venue[]; locale: string }) 
             </div>
             <div className="border-t border-border pt-2 mt-2">
               <div className="flex justify-between">
-                <span className="font-semibold text-foreground">{locale === 'en' ? 'Venue payment amount' : '门店付款金额'}</span>
+                <span className="font-semibold text-foreground">{locale === 'en' ? 'Venue tax-inclusive price' : '门店含税价'}</span>
                 <span className="font-semibold">{calcResult.afterTax.toLocaleString()} MOP</span>
               </div>
               <div className="flex justify-between pt-2">
-                <span className="font-semibold text-foreground">{locale === 'en' ? 'Actual payment (CNY)' : '实付金额（人民币）'}</span>
+                <span className="font-semibold text-foreground">{locale === 'en' ? 'Actual consumption (CNY)' : '实际消费（人民币）'}</span>
                 <span className="font-bold text-primary text-xl">¥ {Math.round(calcResult.finalCny).toLocaleString()}</span>
               </div>
             </div>

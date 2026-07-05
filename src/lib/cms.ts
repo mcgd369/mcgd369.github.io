@@ -74,7 +74,7 @@ export const venues: Venue[] = [
 
   {
     slug: 'shangpin-spa',
-    name: '尚品国际水疗',
+    name: '尚品',
     nameEn: 'Shangpin International Spa',
     tagline: '日式泡泡浴招牌・全日买一送一',
     taglineEn: 'Best value duo packages, constantly improving',
@@ -162,7 +162,7 @@ export const venues: Venue[] = [
 
   {
     slug: 'manhao-spa',
-    name: '曼濠水疗',
+    name: '曼濠',
     nameEn: 'Man Hao Spa',
     tagline: '氹仔新区，最大选秀舞台',
     taglineEn: 'Taipa new area, largest selection stage',
@@ -252,7 +252,7 @@ export const venues: Venue[] = [
 
   {
     slug: 'jiuhao-spa',
-    name: '玖号水疗',
+    name: '玖号',
     nameEn: 'Jiu Hao Spa',
     tagline: '最新开业，日韩资源丰富',
     taglineEn: 'Newly opened, rich Japanese & Korean lineup',
@@ -340,7 +340,7 @@ export const venues: Venue[] = [
 
   {
     slug: 'juheng-sauna',
-    name: '巨亨桑拿',
+    name: '巨亨',
     nameEn: 'Ju Heng Sauna',
     tagline: '奢华大理石，情趣制服丰富',
     taglineEn: 'Luxury marble, rich costume selection',
@@ -428,7 +428,7 @@ export const venues: Venue[] = [
 
   {
     slug: 'supreme-sauna',
-    name: '极品桑拿',
+    name: '极品',
     nameEn: 'Supreme Sauna',
     tagline: '24小时营业，AV主题房沉浸体验',
     taglineEn: '24hr open, Macau boutique sauna',
@@ -515,7 +515,7 @@ export const venues: Venue[] = [
 
   {
     slug: 'golden-fortress-spa',
-    name: '东方皇堡水疗',
+    name: '皇堡',
     nameEn: 'Orient Palace Spa',
     tagline: '澳门最强剧本杀桑拿，AV主题房角色扮演圣地',
     taglineEn: 'The atmosphere champion',
@@ -586,7 +586,7 @@ export const venues: Venue[] = [
 
   {
     slug: 'noble-spa',
-    name: '尊贵水疗',
+    name: '尊贵',
     nameEn: 'Noble Spa',
     tagline: '买一送一老牌，方案直观',
     taglineEn: 'The classic buy-one-get-one destination',
@@ -668,7 +668,7 @@ export const venues: Venue[] = [
 
   {
     slug: 'elite-sauna',
-    name: '晋会桑拿',
+    name: '晋会',
     nameEn: 'Jin Hui Sauna',
     tagline: '皇堡升级版・KTV包房・赛博朋克主题',
     taglineEn: 'Upgraded Eastern Castle with KTV rooms & cyberpunk themes',
@@ -763,7 +763,7 @@ export const venues: Venue[] = [
 
   {
     slug: 'mansion-sauna',
-    name: '豪门桑拿',
+    name: '豪门',
     nameEn: 'Mansion Sauna',
     tagline: '澳门最大场馆、房间最多、性价比最高',
     taglineEn: 'Freedom of choice at your own pace',
@@ -843,7 +843,7 @@ export const venues: Venue[] = [
 
   {
     slug: 'number-one-sauna',
-    name: '壹号桑拿',
+    name: '壹号',
     nameEn: 'Number One Sauna',
     tagline: '连续多年稳居澳门最热门桑拿，技师数量全澳之最',
     taglineEn: 'The heavyweight champion of selection',
@@ -935,7 +935,7 @@ export const venues: Venue[] = [
 
   {
     slug: 'imperial-spa',
-    name: '帝湖水疗',
+    name: '帝湖',
     nameEn: 'Imperial Spa',
     tagline: '氹仔新区最具人气的高端桑拿，双妃全澳最优惠',
     taglineEn: 'Well-staffed with excellent dining',
@@ -1032,7 +1032,7 @@ export const venues: Venue[] = [
 
   {
     slug: 'victoria-sauna',
-    name: '凯旋桑拿',
+    name: '凯旋',
     nameEn: 'Victoria Sauna',
     tagline: '安静首选，专注细致服务，澳门隐藏宝石',
     taglineEn: 'The quietest hidden gem in Macau',

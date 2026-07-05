@@ -392,10 +392,6 @@ export default function VenueDetailClient({ slug }: { slug: string }) {
                   <span className="text-muted-foreground">{txt.location}:</span>
                   <span className="font-semibold text-foreground">{area}</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <span className="text-muted-foreground">{txt.price}:</span>
-                  <span className="font-bold text-primary">{venue.price} {venue.currency}</span>
-                </div>
                 {venue.technicianCount && (
                   <div className="flex items-center gap-2 text-sm">
                     <Users className="h-4 w-4 text-primary" />
@@ -520,42 +516,7 @@ export default function VenueDetailClient({ slug }: { slug: string }) {
               </section>
             )}
 
-            {/* 5. 价格方案 */}
-            {pricing.length > 0 && (
-              <section>
-                <SectionHeading
-                  icon={<CreditCard className="h-4 w-4 text-primary" />}
-                  title={txt.pricing}
-                />
-                <div className="space-y-3">
-                  {pricing.map((plan, idx) => (
-                    <div
-                      key={idx}
-                      className="flex items-center justify-between p-4 rounded-xl bg-card border border-border"
-                    >
-                      <div>
-                        <h3 className="font-semibold text-foreground">
-                          {locale === 'en' ? plan.nameEn : plan.name}
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          {locale === 'en' ? plan.descEn : plan.desc}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <span className="font-bold text-primary text-lg">
-                          {typeof plan.price === 'number' ? plan.price.toLocaleString() : plan.price}
-                        </span>
-                        <span className="text-muted-foreground text-sm ml-1">
-                          {venue.currency}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* 6. 推荐理由 */}
+            {/* 5. 推荐理由 */}
             {recommendReasons && recommendReasons.length > 0 && (
               <section>
                 <SectionHeading
@@ -580,7 +541,7 @@ export default function VenueDetailClient({ slug }: { slug: string }) {
               </section>
             )}
 
-            {/* 7. 优缺点 */}
+            {/* 6. 优缺点 */}
             {((pros && pros.length > 0) || (cons && cons.length > 0)) && (
               <section>
                 <SectionHeading
@@ -624,7 +585,7 @@ export default function VenueDetailClient({ slug }: { slug: string }) {
               </section>
             )}
 
-            {/* 8. 注意事项 */}
+            {/* 7. 注意事项 */}
             {noticeItems && noticeItems.length > 0 && (
               <section>
                 <SectionHeading
@@ -649,7 +610,7 @@ export default function VenueDetailClient({ slug }: { slug: string }) {
               </section>
             )}
 
-            {/* 9. 结语 */}
+            {/* 8. 结语 */}
             {conclusion && (
               <section>
                 <SectionHeading
@@ -665,7 +626,7 @@ export default function VenueDetailClient({ slug }: { slug: string }) {
               </section>
             )}
 
-            {/* 10. 会所相册 */}
+            {/* 9. 会所相册 */}
             {galleryItems.length > 0 && (
               <section id="venue-gallery" className="scroll-mt-24">
                 <SectionHeading
@@ -712,7 +673,7 @@ export default function VenueDetailClient({ slug }: { slug: string }) {
               </section>
             )}
 
-            {/* 11. 相似推荐 */}
+            {/* 10. 相似推荐 */}
             {similarVenues.length > 0 && (
               <section>
                 <SectionHeading

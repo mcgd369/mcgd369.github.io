@@ -25,26 +25,13 @@ export function WeChatBrowserGuard() {
         <div className="absolute top-20 left-1/2 -translate-x-1/2 w-80 h-40 bg-gradient-to-r from-blue-200/30 via-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
 
         <svg
-          className="absolute top-12 right-4 w-40 h-40 text-blue-500"
-          viewBox="0 0 160 160"
+          className="absolute top-10 right-6 w-32 h-32 text-blue-500"
+          viewBox="0 0 120 120"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path
-            d="M140 20 Q120 10 100 25 Q80 40 90 60 Q100 80 70 90 Q40 100 30 130"
-            stroke="currentColor"
-            strokeWidth="3"
-            strokeLinecap="round"
-            fill="none"
-          />
-          <path
-            d="M140 20 L130 45 M140 20 L115 30"
-            stroke="currentColor"
-            strokeWidth="3"
-            strokeLinecap="round"
-          />
-          <circle cx="30" cy="130" r="12" stroke="currentColor" strokeWidth="3" fill="none" />
-          <path d="M22 130 Q30 122 38 130 Q30 138 22 130" stroke="currentColor" strokeWidth="2" fill="none" />
+          <line x1="100" y1="20" x2="40" y2="80" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+          <path d="M35 70 L40 80 L50 75" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
         </svg>
 
         <div className="relative z-10 text-center mb-12">

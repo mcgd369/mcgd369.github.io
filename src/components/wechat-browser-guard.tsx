@@ -24,16 +24,6 @@ export function WeChatBrowserGuard() {
         <div className="absolute top-0 left-0 right-0 h-64 bg-gradient-to-b from-blue-100/50 to-transparent"></div>
         <div className="absolute top-20 left-1/2 -translate-x-1/2 w-80 h-40 bg-gradient-to-r from-blue-200/30 via-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
 
-        <svg
-          className="absolute top-10 right-6 w-32 h-32 text-blue-500"
-          viewBox="0 0 120 120"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <line x1="100" y1="20" x2="40" y2="80" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-          <path d="M35 70 L40 80 L50 75" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-        </svg>
-
         <div className="relative z-10 text-center mb-12">
           <p className="text-gray-800 text-2xl sm:text-3xl font-medium mb-4">
             点击右上角
@@ -91,15 +81,6 @@ export function WeChatBrowserGuard() {
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-32 h-6 bg-white rounded-t-2xl border-t border-l border-r border-gray-100"></div>
           </div>
         </div>
-      </div>
-
-      <div className="py-8 px-6 flex items-center justify-center gap-3">
-        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
-          <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" className="w-5 h-5">
-            <path d="M12 19V5M5 12l7-7 7 7" />
-          </svg>
-        </div>
-        <span className="font-semibold text-gray-800 text-xl">澳门指导</span>
       </div>
     </div>
   );

@@ -23,7 +23,7 @@ export function WeChatBrowserGuard() {
     <div className="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center p-6">
       <div className="text-center max-w-sm">
         <p className="text-white text-base leading-relaxed">
-          部分功能不支持浏览器展示，为了更好的浏览体验，请复制网页链接至浏览器打开
+          部分功能不支持当前浏览器展示，为了更好的浏览体验，请点击左上角三个点，选择默认浏览器打开
         </p>
       </div>
     </div>
